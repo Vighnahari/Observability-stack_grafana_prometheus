@@ -1,0 +1,31 @@
+groups:
+  - name: basic_alerts
+    rules:
+      - alert: High_HighCPUUsage
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 2m
+        labels:
+          severity: High
+        annotations:
+          summary: "High CPU usage detected on {{ $labels.instance }}"
+      - alert: Critical_HighCPUUsage
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
+        for: 2m
+        labels:
+          severity: Critical
+        annotations:
+          summary: "High CPU usage detected on {{ $labels.instance }}"
+      - alert: low_HighCPUUsage
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 60
+        for: 2m
+        labels:
+          severity: low
+        annotations:
+          summary: "High CPU usage detected on {{ $labels.instance }}"
+      - alert: Medium_HighCPUUsage
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 70
+        for: 2m
+        labels:
+          severity: Medium
+        annotations:
+          summary: "High CPU usage detected on {{ $labels.instance }}"
