@@ -8,6 +8,7 @@ groups:
           severity: High
         annotations:
           summary: "High CPU usage detected on {{ $labels.instance }}"
+
       - alert: Critical_HighCPUUsage
         expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
         for: 2m
@@ -15,6 +16,7 @@ groups:
           severity: Critical
         annotations:
           summary: "High CPU usage detected on {{ $labels.instance }}"
+
       - alert: low_HighCPUUsage
         expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 60
         for: 2m
@@ -22,6 +24,7 @@ groups:
           severity: low
         annotations:
           summary: "High CPU usage detected on {{ $labels.instance }}"
+
       - alert: Medium_HighCPUUsage
         expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 70
         for: 2m
@@ -29,3 +32,11 @@ groups:
           severity: Medium
         annotations:
           summary: "High CPU usage detected on {{ $labels.instance }}"
+
+      - alert: LowMemoryAvailable
+        expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 < 20
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Available memory below 20% on {{ $labels.instance }}"
